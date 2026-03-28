@@ -39,7 +39,7 @@ class ProcessPayment implements ShouldQueue
 }
 ```
 
-### After
+### After (Laravel 13.0)
 ```php
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\Attributes\Tries;
@@ -49,6 +49,22 @@ use Illuminate\Queue\Attributes\Backoff;
 #[Tries(3)]
 #[Timeout(120)]
 #[Backoff([10, 30, 60])]
+class ProcessPayment implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+}
+```
+
+### After (Laravel 13.2+ - Variadic)
+```php
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\Attributes\Tries;
+use Illuminate\Queue\Attributes\Timeout;
+use Illuminate\Queue\Attributes\Backoff;
+
+#[Tries(3)]
+#[Timeout(120)]
+#[Backoff(10, 30, 60)]  // Variadic - new in Laravel 13.2
 class ProcessPayment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -78,6 +94,39 @@ use Illuminate\Queue\Attributes\Tries;
 
 #[Queue('high')]
 #[Connection('redis')]
+#[Tries(10)]
+class SyncInventory implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+}
+```
+
+---
+
+## Job with Enum Queue and Connection (Laravel 13.2+)
+
+### After (Using Enums)
+```php
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\Attributes\Queue;
+use Illuminate\Queue\Attributes\Connection;
+use Illuminate\Queue\Attributes\Tries;
+
+enum Queues: string
+{
+    case HIGH = 'high';
+    case LOW = 'low';
+    case DEFAULT = 'default';
+}
+
+enum Connections: string
+{
+    case REDIS = 'redis';
+    case SYNC = 'sync';
+}
+
+#[Queue(Queues::HIGH)]           // Pass enum directly (Laravel 13.2+)
+#[Connection(Connections::REDIS)] // Pass enum directly (Laravel 13.2+)
 #[Tries(10)]
 class SyncInventory implements ShouldQueue
 {

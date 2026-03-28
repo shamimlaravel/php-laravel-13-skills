@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-13-skills` will be documented in this file.
 
+## [1.0.1] - 2026-03-29
+
+### Added
+- Laravel 13.2 support
+- Variadic Backoff attribute syntax: `#[Backoff(10, 30, 60)]`
+- Enum support for Queue and Connection attributes
+- New examples for Laravel 13.2 features
+- Updated version requirements
+
 ## [1.0.0] - 2026-03-29
 
 ### Added

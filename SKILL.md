@@ -1,9 +1,10 @@
 ---
 name: Laravel 13 Attribute Refactor
 description: Write new Laravel 13 code with PHP 8 attributes, and refactor old Laravel code from property-based configuration to attribute syntax. Supports Models, Jobs, Commands, Controllers, FormRequests, Factories, Testing, and Container DI.
-version: 1.0.0
+version: 1.0.1
 author: shamimstack
-tags: [laravel, php, laravel-13, attributes, refactor, eloquent, queue, commands]
+tags: [laravel, php, laravel-13, laravel-13.2, attributes, refactor, eloquent, queue, commands]
+requires: Laravel 13.0+ | PHP 8.3+
 ---
 
 # Laravel 13 Attribute Refactor Skill
@@ -81,11 +82,11 @@ The skill preserves all business logic and maintains backward compatibility. Att
 |--------------|---------------|--------|
 | `$tries` | `#[Tries(5)]` | `Illuminate\Queue\Attributes\Tries` |
 | `$timeout` | `#[Timeout(120)]` | `Illuminate\Queue\Attributes\Timeout` |
-| `$backoff` | `#[Backoff(30)]` or `#[Backoff([10, 30, 60])]` | `Illuminate\Queue\Attributes\Backoff` |
+| `$backoff` | `#[Backoff(30)]` or `#[Backoff(10, 30, 60)]` (variadic, Laravel 13.2+) | `Illuminate\Queue\Attributes\Backoff` |
 | `$maxExceptions` | `#[MaxExceptions(3)]` | `Illuminate\Queue\Attributes\MaxExceptions` |
 | `$middleware` | `#[Middleware([...])]` | `Illuminate\Queue\Attributes\Middleware` |
-| `$connection` | `#[Connection('redis')]` | `Illuminate\Queue\Attributes\Connection` |
-| `$queue` | `#[Queue('high')]` | `Illuminate\Queue\Attributes\Queue` |
+| `$connection` | `#[Connection('redis')]` or `#[Connection(MyEnum::CONNECTION)]` (enum, Laravel 13.2+) | `Illuminate\Queue\Attributes\Connection` |
+| `$queue` | `#[Queue('high')]` or `#[Queue(MyEnum::HIGH)]` (enum, Laravel 13.2+) | `Illuminate\Queue\Attributes\Queue` |
 | `$uniqueFor` | `#[UniqueFor(3600)]` | `Illuminate\Queue\Attributes\UniqueFor` |
 | `$failOnTimeout` | `#[FailOnTimeout]` | `Illuminate\Queue\Attributes\FailOnTimeout` |
 | (new in Laravel 13.2) | `#[ReadsQueueAttributes]` | `Illuminate\Queue\Attributes\ReadsQueueAttributes` |
